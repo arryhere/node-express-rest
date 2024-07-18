@@ -1,0 +1,54 @@
+{
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.renderWhitespace": "trailing",
+    "editor.rulers": [140],
+    "editor.suggest.selectionMode": "always",
+    "editor.formatOnSave": true,
+    "explorer.autoReveal": false,
+    "explorer.compactFolders": false,
+    "explorer.sortOrder": "type",
+    "workbench.editor.enablePreview": true,
+    "terminal.integrated.scrollback": 100000000,
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "[java]": {
+      "editor.defaultFormatter": "redhat.java"
+    },
+    "[sql]": {
+      "editor.defaultFormatter": "mtxr.sqltools"
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[xml]": {
+      "editor.defaultFormatter": "redhat.vscode-xml"
+    },
+    "python.analysis.typeCheckingMode": "off",
+    "rust-analyzer.linkedProjects": [".\\Cargo.toml"],
+    "sqltools.format": {
+      "language": "sql",
+      "linesBetweenQueries": 3,
+      "reservedWordCase": "upper"
+    },
+    "indentRainbow.includedLanguages": ["yaml", "dockercompose"],
+    "java.settings.url": ".vscode/settings.prefs",
+    "java.configuration.updateBuildConfiguration": "interactive"
+  }
+  
