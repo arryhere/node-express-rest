@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { page_not_found_router } from './404_route.js';
-import { error_router } from './error_route.js';
+import { page_not_found_route } from './page_not_found_route.js';
+import { error_route } from './error_route.js';
 
 export const router = Router();
 
-router.use(page_not_found_router);
-router.use(error_router);
+router.use(page_not_found_route);
+router.use(error_route);
