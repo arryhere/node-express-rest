@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
-import { respose_helper } from '../helpers/response_helper.js';
+import { respose_helper } from '../helpers/response.helper.js';
 
 export const page_not_found_route = Router();
 

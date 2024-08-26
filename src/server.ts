@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express, { type Request, type Response, type NextFunction } from 'express';
+import express from 'express';
 import { config } from './configs/config.js';
 import { router } from './routes/route.js';
 
