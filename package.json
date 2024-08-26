@@ -1,5 +1,5 @@
 {
-  "name": "jobbora_scheduler",
+  "name": "rest-express",
   "version": "1.0.0",
   "type": "module",
   "private": "true",
@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "http-status": "^1.7.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.4",
     "tsx": "^4.16.2",
