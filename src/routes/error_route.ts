@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
-import type Exception from '../helper/error_helper.js';
-import { respose_helper } from '../helper/response_helper.js';
+import type Exception from '../helpers/error_helper.js';
+import { respose_helper } from '../helpers/response_helper.js';
 
 export const error_router = Router();
 

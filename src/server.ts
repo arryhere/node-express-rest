@@ -1,8 +1,6 @@
 import cors from 'cors';
 import express, { type Request, type Response, type NextFunction } from 'express';
-import { config } from './config/config.js';
-import type Exception from './helper/error_helper.js';
-import { respose_helper } from './helper/response_helper.js';
+import { config } from './configs/config.js';
 import { router } from './routes/route.js';
 
 const app = express();
