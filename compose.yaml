@@ -1,0 +1,16 @@
+name: compose-rest-express
+
+services:
+  db:
+    # mongo out container uri     : mongodb://root:password@localhost:27018/hawkio?authSource=admin
+    # mongo in container uri      : mongodb://root:password@db:27017/hawkio?authSource=admin
+    container_name: mongo-db-container
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - 27018:27017
+    volumes:
+      - ./tmp/db:/data/db
