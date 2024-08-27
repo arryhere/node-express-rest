@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import { config } from './configs/config.js';
 import { mongodb } from './db/mongodb.js';
+import { log_error, log_info } from './helpers/log.helper.js';
 import { router } from './routes/route.js';
 
 const app = express();
@@ -22,10 +23,10 @@ async function server() {
 
     /* start */
     app.listen(port, () => {
-      console.log(`🚀 server running at: http://localhost:${port}`);
+      log_info(`🚀 server running at: http://localhost:${port}`);
     });
-  } catch (error) {
-    console.log('server error', error);
+  } catch (error: any) {
+    log_error('server error', { error_name: error.name, message: error.message, error });
   }
 }
 
