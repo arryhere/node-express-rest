@@ -52,5 +52,8 @@
   },
   "indentRainbow.includedLanguages": ["yaml", "dockercompose"],
   "java.settings.url": ".vscode/settings.prefs",
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "code-runner.executorMap": {
+    "typescript": "tsx"
+  }
 }
