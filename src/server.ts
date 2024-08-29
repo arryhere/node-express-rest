@@ -26,7 +26,7 @@ async function server() {
       log_info(`🚀 server running at: http://localhost:${port}`);
     });
   } catch (error: any) {
-    log_error('server error', { error_name: error.name, message: error.message, error });
+    log_error('server error', { error_name: error?.name, error_message: error?.message, error });
   }
 }
 
