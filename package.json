@@ -4,7 +4,9 @@
   "type": "module",
   "private": "true",
   "scripts": {
-    "start:dev": "tsx watch ./src/server.ts"
+    "start:dev": "tsx watch ./src/server.ts",
+    "biome:format": "biome format --write ./src",
+    "biome:lint": "biome lint --write ./src"
   },
   "author": "arijit@itobuz.com",
   "license": "UNLICENSED",

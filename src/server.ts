@@ -32,8 +32,8 @@ async function server() {
     app.listen(port, () => {
       log_info(`🚀 server running at: http://localhost:${port}`);
     });
-  } catch (error: any) {
-    log_error('server error', { error_name: error?.name, error_message: error?.message, error });
+  } catch (error: unknown) {
+    log_error('server error', { error_name: (error as Exception)?.name, error_message: (error as Exception)?.message, error });
   }
 }
 
