@@ -4,6 +4,7 @@ import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import { config } from '../../configs/config.js';
+import { send_email } from '../../configs/email.config.js';
 import type { IJwtDecoded } from '../../controllers/auth/jwt_decoded.interface.js';
 import type { ISignInDTO } from '../../controllers/auth/signinDTO.interface.js';
 import type { ISignUpDTO } from '../../controllers/auth/signupDTO.interface.js';
@@ -87,5 +88,17 @@ export class AuthService {
     } catch (error) {
       throw new Exception('Invalid Credentials', httpStatus.UNAUTHORIZED, {});
     }
+  }
+
+  async forgot_password(email: string) {
+    const user = await user_model.findOne({ email: email });
+
+    if (!user) {
+      throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: email });
+    }
+
+    const token = jwt.sign({}, config.jwt.forgot_password_secret, { expiresIn: '10m' });
+
+    await send_email('Reset Password Link', `token: ${token}`, email);
   }
 }

@@ -6,3 +6,5 @@
 
 - format code : npm run biome:format
 - lint code : npm run biome:lint
+
+- generate unique jwt secret : node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
