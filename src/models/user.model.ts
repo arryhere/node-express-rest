@@ -6,6 +6,7 @@ interface IUser {
   email: string;
   password_hash: string;
   dob: string;
+  phoneNumber: string;
 }
 
 const schema = new Schema(
@@ -15,8 +16,9 @@ const schema = new Schema(
     email: { type: String, required: true, unique: true },
     password_hash: { type: String, required: true },
     dob: { type: String, required: true },
+    phoneNumber: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-export const model_user = model<IUser>('user', schema, 'users');
+export const user_model = model<IUser>('user', schema, 'user');

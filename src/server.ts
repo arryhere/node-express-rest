@@ -1,8 +1,10 @@
 import cors from 'cors';
-import express from 'express';
+import express, { type NextFunction, type Request, type Response } from 'express';
 import { config } from './configs/config.js';
 import { mongodb } from './db/mongodb.js';
+import type Exception from './helpers/error.helper.js';
 import { log_error, log_info } from './helpers/log.helper.js';
+import { respose_helper } from './helpers/response.helper.js';
 import { router } from './routes/route.js';
 
 const app = express();
@@ -20,6 +22,11 @@ async function server() {
 
     /* app router */
     app.use(router);
+
+    /* error handling */
+    app.use((error: Exception, req: Request, res: Response, next: NextFunction) => {
+      respose_helper(res, error.status_code, error.message, error.data);
+    });
 
     /* start */
     app.listen(port, () => {
