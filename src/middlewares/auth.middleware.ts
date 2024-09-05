@@ -15,11 +15,17 @@ declare global {
 export async function auth_middleware(req: Request, res: Response, next: NextFunction) {
   try {
     const access_token = req.headers?.authorization?.slice(0, 7);
-    if (!access_token) throw new Exception('Authentication Failed', httpStatus.UNAUTHORIZED, {});
+    if (!access_token) {
+      throw new Exception('Authentication Failed', httpStatus.UNAUTHORIZED, {});
+    }
 
-    const decoded = jwt.verify(access_token, config.jwt.secret);
-    req.user = decoded;
-    next();
+    try {
+      const decoded = jwt.verify(access_token, config.jwt.secret);
+      req.user = decoded;
+      next();
+    } catch (error) {
+      throw new Exception('Authentication Failed', httpStatus.UNAUTHORIZED, {});
+    }
   } catch (error) {
     next(error);
   }
