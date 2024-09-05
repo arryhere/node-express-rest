@@ -9,6 +9,6 @@ export const config = {
     uri: process.env.MONGODB_URI ?? '',
   },
   jwt: {
-    secret: process.env.JWT_SECRET ?? '',
+    auth_secret: process.env.JWT_AUTH_SECRET ?? '',
   },
 };

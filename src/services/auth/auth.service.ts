@@ -70,18 +70,18 @@ export class AuthService {
 
     const jwt_payload: IJwtDecoded = { id: user._id.toString(), email: user.email };
 
-    const access_token = jwt.sign(jwt_payload, config.jwt.secret, { expiresIn: '1h' });
-    const refresh_token = jwt.sign(jwt_payload, config.jwt.secret, { expiresIn: '180d' });
+    const access_token = jwt.sign(jwt_payload, config.jwt.auth_secret, { expiresIn: '1h' });
+    const refresh_token = jwt.sign(jwt_payload, config.jwt.auth_secret, { expiresIn: '180d' });
 
     return { access_token, refresh_token };
   }
 
   async refresh_token(refresh_token: string) {
     try {
-      const decoded = jwt.verify(refresh_token, config.jwt.secret) as IJwtDecoded;
+      const decoded = jwt.verify(refresh_token, config.jwt.auth_secret) as IJwtDecoded;
 
-      const _access_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.secret, { expiresIn: '1h' });
-      const _refresh_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.secret, { expiresIn: '180d' });
+      const _access_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, { expiresIn: '1h' });
+      const _refresh_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, { expiresIn: '180d' });
 
       return { access_token: _access_token, refresh_token: _refresh_token };
     } catch (error) {
