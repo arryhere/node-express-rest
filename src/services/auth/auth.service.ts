@@ -9,6 +9,7 @@ import type { IJwtDecoded } from '../../controllers/auth/jwt_decoded.interface.j
 import type { ISignInDTO } from '../../controllers/auth/signinDTO.interface.js';
 import type { ISignUpDTO } from '../../controllers/auth/signupDTO.interface.js';
 import Exception from '../../helpers/error.helper.js';
+import { reset_password_token_model } from '../../models/reset_password_token.model.js';
 import { user_model } from '../../models/user.model.js';
 
 export class AuthService {
@@ -97,8 +98,36 @@ export class AuthService {
       throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: email });
     }
 
-    const token = jwt.sign({}, config.jwt.forgot_password_secret, { expiresIn: '10m' });
+    const token = jwt.sign({ email }, config.jwt.forgot_password_secret, { expiresIn: '10m' });
 
     await send_email('Reset Password Link', `token: ${token}`, email);
+  }
+
+  async reset_password(token: string, new_password: string) {
+    try {
+      const decoded = jwt.verify(token, config.jwt.forgot_password_secret) as { email: string };
+
+      const token_exist = await reset_password_token_model.findOne({ token: token });
+
+      if (token_exist) {
+        throw new Error();
+      }
+
+      const email = decoded.email;
+
+      const user = await user_model.findOne({ email: email });
+
+      if (!user) {
+        throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: email });
+      }
+
+      const password_hash = await bcryptjs.hash(new_password, 10);
+
+      await user_model.updateOne({ email: email }, { password_hash: password_hash });
+
+      await reset_password_token_model.create({ token: token });
+    } catch (error) {
+      throw new Exception('Invalid Token', httpStatus.UNAUTHORIZED, {});
+    }
   }
 }
