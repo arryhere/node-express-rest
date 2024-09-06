@@ -50,7 +50,7 @@ export class AuthController {
       const { email } = req.body;
 
       if (!email) {
-        throw new Exception('Invaid email', httpStatus.BAD_REQUEST, { email });
+        throw new Exception('Invalid email', httpStatus.BAD_REQUEST, { email });
       }
 
       await auth_service.forgot_password(email);
@@ -67,11 +67,11 @@ export class AuthController {
       const { new_password } = req.body;
 
       if (!token) {
-        throw new Exception('Invaid token', httpStatus.BAD_REQUEST, {});
+        throw new Exception('Invalid token', httpStatus.BAD_REQUEST, {});
       }
 
       if (!new_password) {
-        throw new Exception('Invaid new password', httpStatus.BAD_REQUEST, {});
+        throw new Exception('Invalid new password', httpStatus.BAD_REQUEST, {});
       }
 
       await auth_service.reset_password(String(token), new_password);
