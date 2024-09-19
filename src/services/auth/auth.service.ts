@@ -98,14 +98,14 @@ export class AuthService {
       throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: email });
     }
 
-    const token = jwt.sign({ email }, config.jwt.forgot_password_secret, { expiresIn: '10m' });
+    const token = jwt.sign({ email }, config.jwt.auth_secret, { expiresIn: '10m' });
 
     await send_email('Reset Password Link', `token: ${token}`, email);
   }
 
   async reset_password(token: string, new_password: string) {
     try {
-      const decoded = jwt.verify(token, config.jwt.forgot_password_secret) as { email: string };
+      const decoded = jwt.verify(token, config.jwt.auth_secret) as { email: string };
 
       const token_exist = await reset_password_token_model.findOne({ token: token });
 
