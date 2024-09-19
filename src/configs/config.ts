@@ -10,6 +10,7 @@ export const config = {
   },
   jwt: {
     auth_secret: process.env.JWT_AUTH_SECRET ?? '',
+    forgot_password_secret: process.env.JWT_FORGOT_PASSWORD_SECRET ?? '',
   },
   smtp: {
     host: process.env.SMTP_HOST ?? '',
