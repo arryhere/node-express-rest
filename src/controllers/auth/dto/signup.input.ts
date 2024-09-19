@@ -1,4 +1,4 @@
-export interface ISignUpDTO {
+export interface ISignUpInputDTO {
   firstName: string;
   lastName: string;
   email: string;

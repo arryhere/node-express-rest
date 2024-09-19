@@ -1,4 +1,4 @@
-export interface ISignInDTO {
+export interface ISignInInputDTO {
   email: string;
   password: string;
 }

@@ -3,15 +3,15 @@ import httpStatus from 'http-status';
 import Exception from '../../helpers/error.helper.js';
 import { respose_helper } from '../../helpers/response.helper.js';
 import { AuthService } from '../../services/auth/auth.service.js';
-import type { ISignInDTO } from './signinDTO.interface.js';
-import type { ISignUpDTO } from './signupDTO.interface.js';
+import type { ISignInInputDTO } from './dto/signin.input.js';
+import type { ISignUpInputDTO } from './dto/signup.input.js';
 
 const auth_service = new AuthService();
 
 export class AuthController {
   async signup(req: Request, res: Response, next: NextFunction) {
     try {
-      const signupDTO: ISignUpDTO = req.body;
+      const signupDTO: ISignUpInputDTO = req.body;
 
       await auth_service.signup(signupDTO);
 
@@ -23,7 +23,7 @@ export class AuthController {
 
   async signin(req: Request, res: Response, next: NextFunction) {
     try {
-      const signinDTO: ISignInDTO = req.body;
+      const signinDTO: ISignInInputDTO = req.body;
 
       const result = await auth_service.signin(signinDTO);
 

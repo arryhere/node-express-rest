@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import { config } from '../configs/config.js';
-import type { IJwtDecoded } from '../controllers/auth/jwt_decoded.interface.js';
+import type { IJwtDecoded } from '../controllers/auth/interface/jwt_decoded.interface.js';
 import Exception from '../helpers/error.helper.js';
 
 declare global {
