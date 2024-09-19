@@ -6,14 +6,14 @@ import { z } from 'zod';
 import { config } from '../../configs/config.js';
 import { send_email } from '../../configs/email.config.js';
 import type { IJwtDecoded } from '../../controllers/auth/interface/jwt_decoded.interface.js';
-import type { ISignInDTO } from '../../controllers/auth/dto/signin.input.js';
-import type { ISignUpDTO } from '../../controllers/auth/dto/signup.input.js';
+import type { ISignInInputDTO } from '../../controllers/auth/dto/signin.input.js';
+import type { ISignUpInputDTO } from '../../controllers/auth/dto/signup.input.js';
 import Exception from '../../helpers/error.helper.js';
 import { reset_password_token_model } from '../../models/reset_password_token.model.js';
 import { user_model } from '../../models/user.model.js';
 
 export class AuthService {
-  async signup(signupDTO: ISignUpDTO): Promise<void> {
+  async signup(signupDTO: ISignUpInputDTO): Promise<void> {
     const signUp_schema = z.object({
       firstName: z.string().min(1, 'First name is required'),
       lastName: z.string().min(1, 'Last name is required'),
@@ -55,7 +55,7 @@ export class AuthService {
     });
   }
 
-  async signin(signinDTO: ISignInDTO) {
+  async signin(signinDTO: ISignInInputDTO) {
     const user = await user_model.findOne({
       email: signinDTO.email,
     });
