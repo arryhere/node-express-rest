@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import { config } from '../../configs/config.js';
 import { send_email } from '../../configs/email.config.js';
-import type { IJwtDecoded } from '../../controllers/auth/interface/jwt_decoded.interface.js';
 import type { ISignInInputDTO } from '../../controllers/auth/dto/signin.input.js';
 import type { ISignUpInputDTO } from '../../controllers/auth/dto/signup.input.js';
+import type { IJwtDecoded } from '../../controllers/auth/interface/jwt_decoded.interface.js';
 import Exception from '../../helpers/error.helper.js';
 import { reset_password_token_model } from '../../models/reset_password_token.model.js';
 import { user_model } from '../../models/user.model.js';
@@ -82,8 +82,12 @@ export class AuthService {
     try {
       const decoded = jwt.verify(refresh_token, config.jwt.auth_secret) as IJwtDecoded;
 
-      const _access_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, { expiresIn: '1h' });
-      const _refresh_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, { expiresIn: '180d' });
+      const _access_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, {
+        expiresIn: '1h',
+      });
+      const _refresh_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, {
+        expiresIn: '180d',
+      });
 
       return { access_token: _access_token, refresh_token: _refresh_token };
     } catch (error) {

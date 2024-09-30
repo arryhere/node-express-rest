@@ -7,18 +7,25 @@ import { log_error, log_info } from './helpers/log.helper.js';
 import { respose_helper } from './helpers/response.helper.js';
 import { router } from './routes/route.js';
 
-const app = express();
-const port = config.app.port;
-
-async function server() {
+async function main() {
   try {
+    /* init */
+    const app = express();
+    const port = config.app.port;
+
     /* db */
     await mongodb();
 
     /* middlewares */
     app.use(express.json({ limit: '50mb' }));
     app.use(express.urlencoded({ limit: '50mb', extended: true }));
-    app.use(cors());
+    app.use(
+      cors({
+        credentials: true,
+        methods: ['HEAD,GET,POST,PUT,PATCH,DELETE'],
+        origin: [],
+      })
+    );
 
     /* app router */
     app.use(router);
@@ -33,8 +40,12 @@ async function server() {
       log_info(`🚀 server running at: http://localhost:${port}`);
     });
   } catch (error: unknown) {
-    log_error('server error', { error_name: (error as Exception)?.name, error_message: (error as Exception)?.message, error });
+    log_error('server error', {
+      error_name: (error as Exception)?.name,
+      error_message: (error as Exception)?.message,
+      error,
+    });
   }
 }
 
-server();
+main();

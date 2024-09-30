@@ -1,4 +1,4 @@
-name: compose-rest-express
+name: compose-node-rest-express
 
 services:
   db:
@@ -6,7 +6,7 @@ services:
     # mongo in container uri      : mongodb://root:password@db:27017/hawkio?authSource=admin
     container_name: mongo-db-container
     image: mongo:latest
-    restart: always
+    restart: on-failure:3
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}

@@ -2,7 +2,7 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.renderWhitespace": "trailing",
-  "editor.rulers": [140],
+  "editor.rulers": [120],
   "editor.suggest.selectionMode": "always",
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit"
@@ -19,20 +19,8 @@
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.autopep8"
-  },
-  "[java]": {
-    "editor.defaultFormatter": "redhat.java"
   },
   "[sql]": {
     "editor.defaultFormatter": "mtxr.sqltools"
@@ -43,17 +31,9 @@
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   },
-  "python.analysis.typeCheckingMode": "off",
-  "rust-analyzer.linkedProjects": [".\\Cargo.toml"],
-  "sqltools.format": {
-    "language": "sql",
-    "linesBetweenQueries": 3,
-    "reservedWordCase": "upper"
-  },
   "indentRainbow.includedLanguages": ["yaml", "dockercompose"],
-  "java.settings.url": ".vscode/settings.prefs",
-  "java.configuration.updateBuildConfiguration": "interactive",
   "code-runner.executorMap": {
-    "typescript": "tsx"
+    "typescript": "tsx",
+    "javascript": "tsx"
   }
 }
