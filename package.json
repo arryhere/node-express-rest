@@ -6,11 +6,16 @@
   "private": true,
   "author": "Arijit Das <arijit@itobuz.com>",
   "description": "",
+  "main": "./src/main.ts",
   "scripts": {
     "start:dev": "tsx watch ./src/main.ts",
-    "build:swc": "rm -rf ./dist && tsc --noEmit && swc ./src -d ./dist --strip-leading-paths",
+    "start:prod": "node ./dist/index.js",
+    "build:swc": "rm -rf ./dist && npm run type-check && swc ./src -d ./dist --strip-leading-paths",
+    "build:ncc": "rm -rf ./dist && npm run type-check && ncc build ./src/main.ts -o ./dist -m -C",
+    "type-check": "tsc --noEmit",
     "format": "biome format --write ./src",
-    "lint": "biome lint --write ./src && biome check --write ./src"
+    "lint": "biome lint --write ./src && biome check --write ./src",
+    "pre-commit": "npm run format && npm run lint && npm run type-check"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
@@ -25,7 +30,8 @@
     "@types/node-schedule": "^2.1.7",
     "@types/nodemailer": "^6.4.15",
     "@types/uuid": "^9.0.1",
-    "chokidar": "^3.6.0",
+    "@vercel/ncc": "^0.38.2",
+    "tsx": "^4.19.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
@@ -34,14 +40,13 @@
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.1.3",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "http-status": "^1.7.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.4",
     "nodemailer": "^6.9.15",
     "pino": "^9.3.2",
     "pino-pretty": "^11.2.2",
-    "tsx": "^4.16.2",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
   }
