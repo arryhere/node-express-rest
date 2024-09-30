@@ -1,7 +1,10 @@
 {
   "$schema": "https://swc.rs/schema.json",
   "sourceMaps": false,
-  "minify": true,
+  "minify": false,
+  "module": {
+    "type": "nodenext"
+  },
   "jsc": {
     "externalHelpers": true,
     "parser": {

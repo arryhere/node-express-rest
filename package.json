@@ -7,12 +7,14 @@
   "author": "Arijit Das <arijit@itobuz.com>",
   "description": "",
   "scripts": {
-    "start:dev": "tsx watch ./src/server.ts",
+    "start:dev": "tsx watch ./src/main.ts",
+    "build:swc": "rm -rf ./dist && swc ./src -d ./dist --strip-leading-paths",
     "format": "biome format --write ./src",
     "lint": "biome lint --write ./src && biome check --write ./src"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
+    "@swc/cli": "^0.4.1-nightly.20240914",
     "@swc/core": "^1.7.26",
     "@swc/helpers": "^0.5.13",
     "@types/bcryptjs": "^2.4.6",
@@ -23,6 +25,7 @@
     "@types/node-schedule": "^2.1.7",
     "@types/nodemailer": "^6.4.15",
     "@types/uuid": "^9.0.1",
+    "chokidar": "^3.6.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {
