@@ -9,7 +9,7 @@
   "main": "./src/main.ts",
   "scripts": {
     "start:dev": "tsx watch ./src/main.ts",
-    "start:prod": "npm run build:ncc && node ./dist/index.js",
+    "start:prod": "node ./dist/index.js",
     "build:swc": "rm -rf ./dist && npm run type-check && swc ./src -d ./dist --strip-leading-paths",
     "build:ncc": "rm -rf ./dist && npm run type-check && ncc build ./src/main.ts -o ./dist -m -C",
     "type-check": "tsc --noEmit",
