@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import Exception from '../../common/error/exception.error.js';
-import { user_model } from '../../models/user/user.model.js';
+import { user_model } from '../../model/user/user.model.js';
 
 export class UserService {
   async get_profile(user_id: string) {

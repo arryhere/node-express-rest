@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
-import { UserController } from '../../controllers/user/user.controller.js';
-import { auth_middleware } from '../../middlewares/auth.middleware.js';
-import { UserService } from '../../services/user/user.service.js';
+import { UserController } from '../../controller/user/user.controller.js';
+import { auth_middleware } from '../../middleware/auth.middleware.js';
+import { UserService } from '../../service/user/user.service.js';
 
 export const user_route = Router();
 

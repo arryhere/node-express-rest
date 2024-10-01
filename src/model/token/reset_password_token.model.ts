@@ -1,6 +1,7 @@
 import { Document, Schema, model } from 'mongoose';
 
 interface IResetPasswordToken {
+  email: string;
   token: string;
   issuedAt: Date;
 }

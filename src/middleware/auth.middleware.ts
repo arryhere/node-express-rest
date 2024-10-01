@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import Exception from '../common/error/exception.error.js';
 import type { IJwtPayload } from '../common/interface/jwt_payload.interface.js';
-import { config } from '../configs/config.js';
+import { config } from '../config/config.js';
 
 declare global {
   namespace Express {

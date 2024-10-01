@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import Exception from '../../common/error/exception.error.js';
 import { respose_helper } from '../../common/helper/response.helper.js';
-import type { UserService } from '../../services/user/user.service.js';
+import type { UserService } from '../../service/user/user.service.js';
 
 export class UserController {
   constructor(private readonly user_service: UserService) {}

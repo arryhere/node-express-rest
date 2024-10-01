@@ -2,7 +2,7 @@ import cors from 'cors';
 import express, { type NextFunction, type Request, type Response } from 'express';
 import type Exception from './common/error/exception.error.js';
 import { log_error, log_info } from './common/helper/log.helper.js';
-import { config } from './configs/config.js';
+import { config } from './config/config.js';
 import { mongodb } from './db/mongodb.js';
 
 import { respose_helper } from './common/helper/response.helper.js';

@@ -1,6 +1,6 @@
 import type { Response } from 'express';
 import httpStatus from 'http-status';
-import { config } from '../../configs/config.js';
+import { config } from '../../config/config.js';
 
 export function respose_helper(res: Response, status_code: number, message: string, data: object) {
   return res.status(status_code ?? httpStatus.INTERNAL_SERVER_ERROR).json({

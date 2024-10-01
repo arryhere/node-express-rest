@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import Exception from '../../common/error/exception.error.js';
 import { respose_helper } from '../../common/helper/response.helper.js';
-import type { AuthService } from '../../services/auth/auth.service.js';
+import type { AuthService } from '../../service/auth/auth.service.js';
 import type { ISignInInput } from './dto/signin.input.js';
 import type { ISignUpInput } from './dto/signup.input.js';
 

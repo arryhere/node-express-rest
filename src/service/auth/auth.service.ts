@@ -5,11 +5,11 @@ import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import Exception from '../../common/error/exception.error.js';
 import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
-import { config } from '../../configs/config.js';
-import type { ISignInInput } from '../../controllers/auth/dto/signin.input.js';
-import type { ISignUpInput } from '../../controllers/auth/dto/signup.input.js';
-import { reset_password_token_model } from '../../models/auth/reset_password_token.model.js';
-import { user_model } from '../../models/user/user.model.js';
+import { config } from '../../config/config.js';
+import type { ISignInInput } from '../../controller/auth/dto/signin.input.js';
+import type { ISignUpInput } from '../../controller/auth/dto/signup.input.js';
+import { reset_password_token_model } from '../../model/token/reset_password_token.model.js';
+import { user_model } from '../../model/user/user.model.js';
 import type { EmailService } from '../email/email.service.js';
 
 export class AuthService {
