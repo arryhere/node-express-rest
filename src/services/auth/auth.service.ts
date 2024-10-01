@@ -6,8 +6,8 @@ import { z } from 'zod';
 import Exception from '../../common/error/exception.error.js';
 import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
 import { config } from '../../configs/config.js';
-import type { ISignInInputDTO } from '../../controllers/auth/dto/signin.input.js';
-import type { ISignUpInputDTO } from '../../controllers/auth/dto/signup.input.js';
+import type { ISignInInput } from '../../controllers/auth/dto/signin.input.js';
+import type { ISignUpInput } from '../../controllers/auth/dto/signup.input.js';
 import { reset_password_token_model } from '../../models/auth/reset_password_token.model.js';
 import { user_model } from '../../models/user/user.model.js';
 import type { EmailService } from '../email/email.service.js';
@@ -15,7 +15,7 @@ import type { EmailService } from '../email/email.service.js';
 export class AuthService {
   constructor(private readonly email_service: EmailService) {}
 
-  async signup(signupDTO: ISignUpInputDTO): Promise<void> {
+  async signup(signupDTO: ISignUpInput): Promise<void> {
     const signUp_schema = z.object({
       firstName: z.string().min(1, 'First name is required'),
       lastName: z.string().min(1, 'Last name is required'),
@@ -57,8 +57,7 @@ export class AuthService {
     });
   }
 
-  async signin(signinDTO: ISignInInputDTO) {
-    console.log('signinDTO', signinDTO);
+  async signin(signinDTO: ISignInInput) {
     const user = await user_model.findOne({
       email: signinDTO.email,
     });
