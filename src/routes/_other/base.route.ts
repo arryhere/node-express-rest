@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
 import httpStatus from 'http-status';
-import { respose_helper } from '../../helpers/response.helper.js';
+import { respose_helper } from '../../common/helper/response.helper.js';
 
 export const base_route = Router();
 

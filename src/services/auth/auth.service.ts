@@ -3,11 +3,11 @@ import { isMatch } from 'date-fns';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import Exception from '../../common/error/exception.error.js';
+import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
 import { config } from '../../configs/config.js';
 import type { ISignInInputDTO } from '../../controllers/auth/dto/signin.input.js';
 import type { ISignUpInputDTO } from '../../controllers/auth/dto/signup.input.js';
-import type { IJwtDecoded } from '../../controllers/auth/interface/jwt_decoded.interface.js';
-import Exception from '../../helpers/error.helper.js';
 import { reset_password_token_model } from '../../models/auth/reset_password_token.model.js';
 import { user_model } from '../../models/user/user.model.js';
 import type { EmailService } from '../email/email.service.js';
@@ -58,6 +58,7 @@ export class AuthService {
   }
 
   async signin(signinDTO: ISignInInputDTO) {
+    console.log('signinDTO', signinDTO);
     const user = await user_model.findOne({
       email: signinDTO.email,
     });
@@ -72,7 +73,7 @@ export class AuthService {
       throw new Exception('Invalid Credentials', httpStatus.BAD_REQUEST, { email: signinDTO.email });
     }
 
-    const jwt_payload: IJwtDecoded = { id: user._id.toString(), email: user.email };
+    const jwt_payload: IJwtPayload = { id: user._id.toString(), email: user.email };
 
     const access_token = jwt.sign(jwt_payload, config.jwt.auth_secret, { expiresIn: '1h' });
     const refresh_token = jwt.sign(jwt_payload, config.jwt.auth_secret, { expiresIn: '180d' });
@@ -82,7 +83,7 @@ export class AuthService {
 
   async refresh_token(refresh_token: string) {
     try {
-      const decoded = jwt.verify(refresh_token, config.jwt.auth_secret) as IJwtDecoded;
+      const decoded = jwt.verify(refresh_token, config.jwt.auth_secret) as IJwtPayload;
 
       const _access_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, {
         expiresIn: '1h',

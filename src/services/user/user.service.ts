@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import Exception from '../../helpers/error.helper.js';
+import Exception from '../../common/error/exception.error.js';
 import { user_model } from '../../models/user/user.model.js';
 
 export class UserService {

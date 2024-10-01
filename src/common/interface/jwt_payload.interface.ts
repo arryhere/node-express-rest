@@ -1,4 +1,4 @@
-export interface IJwtDecoded {
+export interface IJwtPayload {
   id: string;
   email: string;
   iat?: number;

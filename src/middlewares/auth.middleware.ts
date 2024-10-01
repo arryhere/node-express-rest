@@ -1,14 +1,14 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import jwt, { type JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import Exception from '../common/error/exception.error.js';
+import type { IJwtPayload } from '../common/interface/jwt_payload.interface.js';
 import { config } from '../configs/config.js';
-import type { IJwtDecoded } from '../controllers/auth/interface/jwt_decoded.interface.js';
-import Exception from '../helpers/error.helper.js';
 
 declare global {
   namespace Express {
     interface Request {
-      user?: IJwtDecoded;
+      user?: IJwtPayload;
     }
   }
 }
@@ -22,7 +22,7 @@ export async function auth_middleware(req: Request, res: Response, next: NextFun
     }
 
     try {
-      const decoded = jwt.verify(access_token, config.jwt.auth_secret) as IJwtDecoded;
+      const decoded = jwt.verify(access_token, config.jwt.auth_secret) as IJwtPayload;
       req.user = decoded;
       next();
     } catch (error) {

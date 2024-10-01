@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import Exception from '../../helpers/error.helper.js';
-import { respose_helper } from '../../helpers/response.helper.js';
+import Exception from '../../common/error/exception.error.js';
+import { respose_helper } from '../../common/helper/response.helper.js';
 import type { AuthService } from '../../services/auth/auth.service.js';
 import type { ISignInInputDTO } from './dto/signin.input.js';
 import type { ISignUpInputDTO } from './dto/signup.input.js';
@@ -29,6 +29,7 @@ export class AuthController {
 
       respose_helper(res, httpStatus.OK, 'SignIn success', result);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
