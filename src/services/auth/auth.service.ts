@@ -7,10 +7,12 @@ import { config } from '../../configs/config.js';
 import type { ISignInInputDTO } from '../../controllers/auth/dto/signin.input.js';
 import type { ISignUpInputDTO } from '../../controllers/auth/dto/signup.input.js';
 import type { IJwtDecoded } from '../../controllers/auth/interface/jwt_decoded.interface.js';
-import { send_email } from '../../helpers/email.helper.js';
 import Exception from '../../helpers/error.helper.js';
 import { reset_password_token_model } from '../../models/auth/reset_password_token.model.js';
 import { user_model } from '../../models/user/user.model.js';
+import { EmailService } from '../email/email.service.js';
+
+const email_service = new EmailService();
 
 export class AuthService {
   async signup(signupDTO: ISignUpInputDTO): Promise<void> {
@@ -104,7 +106,7 @@ export class AuthService {
 
     const token = jwt.sign({ email }, config.jwt.forgot_password_secret, { expiresIn: '10m' });
 
-    await send_email('Reset Password Link', `token: ${token}`, email);
+    await email_service.send_email('Reset Password Link', `token: ${token}`, email);
   }
 
   async reset_password(token: string, new_password: string) {
