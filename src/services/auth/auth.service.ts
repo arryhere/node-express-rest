@@ -4,13 +4,13 @@ import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import { config } from '../../configs/config.js';
-import { send_email } from '../../configs/email.config.js';
 import type { ISignInInputDTO } from '../../controllers/auth/dto/signin.input.js';
 import type { ISignUpInputDTO } from '../../controllers/auth/dto/signup.input.js';
 import type { IJwtDecoded } from '../../controllers/auth/interface/jwt_decoded.interface.js';
+import { send_email } from '../../helpers/email.helper.js';
 import Exception from '../../helpers/error.helper.js';
-import { reset_password_token_model } from '../../models/reset_password_token.model.js';
-import { user_model } from '../../models/user.model.js';
+import { reset_password_token_model } from '../../models/auth/reset_password_token.model.js';
+import { user_model } from '../../models/user/user.model.js';
 
 export class AuthService {
   async signup(signupDTO: ISignUpInputDTO): Promise<void> {

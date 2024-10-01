@@ -1,8 +1,8 @@
 import httpStatus from 'http-status';
 import nodemailer from 'nodemailer';
-import Exception from '../helpers/error.helper.js';
-import { log_info } from '../helpers/log.helper.js';
-import { config } from './config.js';
+import { config } from '../configs/config.js';
+import Exception from './error.helper.js';
+import { log_info } from './log.helper.js';
 
 export async function send_email(subject: string, html: string, to_email: string) {
   try {

@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { auth_route } from './auth.route.js';
-import { base_route } from './base.route.js';
-import { health_route } from './health.route.js';
-import { page_not_found_route } from './page_not_found.route.js';
-import { user_route } from './user.route.js';
+import { base_route } from './_other/base.route.js';
+import { health_route } from './_other/health.route.js';
+import { page_not_found_route } from './_other/page_not_found.route.js';
+import { auth_route } from './auth/auth.route.js';
+import { user_route } from './user/user.route.js';
 
 export const router = Router();
 
