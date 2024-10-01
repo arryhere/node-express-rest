@@ -10,11 +10,11 @@ import type { IJwtDecoded } from '../../controllers/auth/interface/jwt_decoded.i
 import Exception from '../../helpers/error.helper.js';
 import { reset_password_token_model } from '../../models/auth/reset_password_token.model.js';
 import { user_model } from '../../models/user/user.model.js';
-import { EmailService } from '../email/email.service.js';
-
-const email_service = new EmailService();
+import type { EmailService } from '../email/email.service.js';
 
 export class AuthService {
+  constructor(private readonly email_service: EmailService) {}
+
   async signup(signupDTO: ISignUpInputDTO): Promise<void> {
     const signUp_schema = z.object({
       firstName: z.string().min(1, 'First name is required'),
@@ -106,7 +106,7 @@ export class AuthService {
 
     const token = jwt.sign({ email }, config.jwt.forgot_password_secret, { expiresIn: '10m' });
 
-    await email_service.send_email('Reset Password Link', `token: ${token}`, email);
+    await this.email_service.send_email('Reset Password Link', `token: ${token}`, email);
   }
 
   async reset_password(token: string, new_password: string) {

@@ -2,18 +2,18 @@ import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import Exception from '../../helpers/error.helper.js';
 import { respose_helper } from '../../helpers/response.helper.js';
-import { AuthService } from '../../services/auth/auth.service.js';
+import type { AuthService } from '../../services/auth/auth.service.js';
 import type { ISignInInputDTO } from './dto/signin.input.js';
 import type { ISignUpInputDTO } from './dto/signup.input.js';
 
-const auth_service = new AuthService();
-
 export class AuthController {
+  constructor(private readonly auth_service: AuthService) {}
+
   async signup(req: Request, res: Response, next: NextFunction) {
     try {
       const signupDTO: ISignUpInputDTO = req.body;
 
-      await auth_service.signup(signupDTO);
+      await this.auth_service.signup(signupDTO);
 
       respose_helper(res, httpStatus.CREATED, 'SignUp success', {});
     } catch (error) {
@@ -25,7 +25,7 @@ export class AuthController {
     try {
       const signinDTO: ISignInInputDTO = req.body;
 
-      const result = await auth_service.signin(signinDTO);
+      const result = await this.auth_service.signin(signinDTO);
 
       respose_helper(res, httpStatus.OK, 'SignIn success', result);
     } catch (error) {
@@ -37,7 +37,7 @@ export class AuthController {
     try {
       const { refresh_token } = req.body;
 
-      const result = await auth_service.refresh_token(refresh_token);
+      const result = await this.auth_service.refresh_token(refresh_token);
 
       respose_helper(res, httpStatus.OK, 'Refresh and Access Token generated', result);
     } catch (error) {
@@ -53,7 +53,7 @@ export class AuthController {
         throw new Exception('Invalid email', httpStatus.BAD_REQUEST, { email });
       }
 
-      await auth_service.forgot_password(email);
+      await this.auth_service.forgot_password(email);
 
       respose_helper(res, httpStatus.OK, 'Forgot password email sent', {});
     } catch (error) {
@@ -74,7 +74,7 @@ export class AuthController {
         throw new Exception('Invalid new password', httpStatus.BAD_REQUEST, {});
       }
 
-      await auth_service.reset_password(String(token), new_password);
+      await this.auth_service.reset_password(String(token), new_password);
 
       respose_helper(res, httpStatus.OK, 'Reset password success', {});
     } catch (error) {
