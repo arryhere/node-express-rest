@@ -3,8 +3,8 @@ import httpStatus from 'http-status';
 import Exception from '../../common/error/exception.error.js';
 import { respose_helper } from '../../common/helper/response.helper.js';
 import type { AuthService } from '../../service/auth/auth.service.js';
-import type { ISignInInput } from './dto/signin.input.js';
-import type { ISignUpInput } from './dto/signup.input.js';
+import { signin_input_schema, type ISignInInput } from './dto/signin.input.js';
+import { signup_input_schema, type ISignUpInput } from './dto/signup.input.js';
 
 export class AuthController {
   constructor(private readonly auth_service: AuthService) {}
@@ -12,6 +12,12 @@ export class AuthController {
   async signup(req: Request, res: Response, next: NextFunction) {
     try {
       const signupDTO: ISignUpInput = req.body;
+
+      const validation_result = signup_input_schema.safeParse(signupDTO);
+
+      if (!validation_result.success) {
+        throw new Exception('Signup validation failed', httpStatus.BAD_REQUEST, validation_result.error);
+      }
 
       await this.auth_service.signup(signupDTO);
 
@@ -24,6 +30,12 @@ export class AuthController {
   async signin(req: Request, res: Response, next: NextFunction) {
     try {
       const signinDTO: ISignInInput = req.body;
+
+      const validation_result = signin_input_schema.safeParse(signinDTO);
+
+      if (!validation_result.success) {
+        throw new Exception('Signin validation failed', httpStatus.BAD_REQUEST, validation_result.error);
+      }
 
       const result = await this.auth_service.signin(signinDTO);
 

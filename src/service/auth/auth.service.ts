@@ -1,8 +1,6 @@
 import bcryptjs from 'bcryptjs';
-import { isMatch } from 'date-fns';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
-import { z } from 'zod';
 import Exception from '../../common/error/exception.error.js';
 import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
 import { config } from '../../config/config.js';
@@ -16,44 +14,23 @@ export class AuthService {
   constructor(private readonly email_service: EmailService) {}
 
   async signup(signupDTO: ISignUpInput): Promise<void> {
-    const signUp_schema = z.object({
-      firstName: z.string().min(1, 'First name is required'),
-      lastName: z.string().min(1, 'Last name is required'),
-      email: z.string().email('Invalid email address'),
-      password: z.string().min(6, 'Password must be at least 6 characters long'),
-      dob: z.string().refine((val) => {
-        const test = /^\d{4}-\d{2}-\d{2}$/.test(val);
-        if (!test) return false;
-        const match = isMatch(val, 'yyyy-MM-dd');
-        if (!match) return false;
-        return true;
-      }, 'Invalid date format, expected yyyy-MM-dd'),
-      phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
-    });
-
-    const result = signUp_schema.safeParse(signupDTO);
-
-    if (!result.success) {
-      throw new Exception('signup validation failed', httpStatus.BAD_REQUEST, result.error);
-    }
-
     const emailExist = await user_model.findOne({
-      email: result.data.email,
+      email: signupDTO.email,
     });
 
     if (emailExist) {
-      throw new Exception('Email already exist', httpStatus.BAD_REQUEST, { email: result.data.email });
+      throw new Exception('Email already exist', httpStatus.BAD_REQUEST, { email: signupDTO.email });
     }
 
-    const password_hash = await bcryptjs.hash(result.data.password, 10);
+    const password_hash = await bcryptjs.hash(signupDTO.password, 10);
 
     await user_model.create({
-      firstName: result.data.firstName,
-      lastName: result.data.lastName,
-      email: result.data.email,
+      firstName: signupDTO.firstName,
+      lastName: signupDTO.lastName,
+      email: signupDTO.email,
       password_hash: password_hash,
-      dob: result.data.dob,
-      phoneNumber: result.data.phoneNumber,
+      dob: signupDTO.dob,
+      phoneNumber: signupDTO.phoneNumber,
     });
   }
 
