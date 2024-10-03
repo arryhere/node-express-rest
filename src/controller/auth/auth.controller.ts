@@ -3,8 +3,8 @@ import httpStatus from 'http-status';
 import Exception from '../../common/error/exception.error.js';
 import { respose_helper } from '../../common/helper/response.helper.js';
 import type { AuthService } from '../../service/auth/auth.service.js';
-import { signin_input_schema, type ISignInInput } from './dto/signin.input.js';
-import { signup_input_schema, type ISignUpInput } from './dto/signup.input.js';
+import { type ISignInInput, signin_input_schema } from './dto/signin.input.js';
+import { type ISignUpInput, signup_input_schema } from './dto/signup.input.js';
 
 export class AuthController {
   constructor(private readonly auth_service: AuthService) {}

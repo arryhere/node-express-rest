@@ -3,9 +3,9 @@ import Exception from '../../common/error/exception.error.js';
 import { user_model } from '../../model/user/user.model.js';
 
 export class UserService {
-  async get_profile(user_id: string) {
+  async get_profile(user_email: string) {
     const user = await user_model.findOne({
-      _id: user_id,
+      email: user_email,
     });
 
     if (!user) {

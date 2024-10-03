@@ -9,13 +9,13 @@ export class UserController {
 
   async get_profile(req: Request, res: Response, next: NextFunction) {
     try {
-      const user_id = req.user?.id;
+      const user_email = req.user?.email;
 
-      if (!user_id) {
+      if (!user_email) {
         throw new Exception('User not found', httpStatus.BAD_REQUEST, {});
       }
 
-      const result = await this.user_service.get_profile(user_id);
+      const result = await this.user_service.get_profile(user_email);
 
       respose_helper(res, httpStatus.OK, 'Get Profile success', result);
     } catch (error) {

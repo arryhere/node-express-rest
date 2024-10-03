@@ -1,12 +1,13 @@
 import bcryptjs from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
+import { TokenType } from '../../common/enum/token.enum.js';
 import Exception from '../../common/error/exception.error.js';
 import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
 import { config } from '../../config/config.js';
 import type { ISignInInput } from '../../controller/auth/dto/signin.input.js';
 import type { ISignUpInput } from '../../controller/auth/dto/signup.input.js';
-import { reset_password_token_model } from '../../model/token/reset_password_token.model.js';
+import { token_model } from '../../model/token/token.model.js';
 import { user_model } from '../../model/user/user.model.js';
 import type { EmailService } from '../email/email.service.js';
 
@@ -49,7 +50,7 @@ export class AuthService {
       throw new Exception('Invalid Credentials', httpStatus.BAD_REQUEST, { email: signinDTO.email });
     }
 
-    const jwt_payload: IJwtPayload = { id: user._id.toString(), email: user.email };
+    const jwt_payload: IJwtPayload = { email: user.email };
 
     const access_token = jwt.sign(jwt_payload, config.jwt.auth_secret, { expiresIn: '1h' });
     const refresh_token = jwt.sign(jwt_payload, config.jwt.auth_secret, { expiresIn: '180d' });
@@ -61,10 +62,10 @@ export class AuthService {
     try {
       const decoded = jwt.verify(refresh_token, config.jwt.auth_secret) as IJwtPayload;
 
-      const _access_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, {
+      const _access_token = jwt.sign({ email: decoded.email }, config.jwt.auth_secret, {
         expiresIn: '1h',
       });
-      const _refresh_token = jwt.sign({ id: decoded.id, email: decoded.email }, config.jwt.auth_secret, {
+      const _refresh_token = jwt.sign({ email: decoded.email }, config.jwt.auth_secret, {
         expiresIn: '180d',
       });
 
@@ -83,32 +84,32 @@ export class AuthService {
 
     const token = jwt.sign({ email }, config.jwt.forgot_password_secret, { expiresIn: '10m' });
 
-    await this.email_service.send_email('Reset Password Link', `token: ${token}`, email);
+    await this.email_service.send_email('Forgot Password Link', `token: ${token}`, email);
+
+    await token_model.create({ email: email, token: token, tokenType: TokenType.FORGOT_PASSWORD_TOKEN });
   }
 
   async reset_password(token: string, new_password: string) {
     try {
-      const decoded = jwt.verify(token, config.jwt.forgot_password_secret) as { email: string };
+      const decoded = jwt.verify(token, config.jwt.forgot_password_secret) as IJwtPayload;
 
-      const token_exist = await reset_password_token_model.findOne({ token: token });
+      const token_exist = await token_model.findOne({ token: token, email: decoded.email });
 
-      if (token_exist) {
-        throw new Error();
+      if (!token_exist) {
+        throw new Exception('Invalid Token', httpStatus.BAD_REQUEST, { email: decoded.email });
       }
 
-      const email = decoded.email;
-
-      const user = await user_model.findOne({ email: email });
+      const user = await user_model.findOne({ email: decoded.email });
 
       if (!user) {
-        throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: email });
+        throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: decoded.email });
       }
 
       const password_hash = await bcryptjs.hash(new_password, 10);
 
-      await user_model.updateOne({ email: email }, { password_hash: password_hash });
+      await user_model.updateOne({ email: user.email }, { password_hash: password_hash });
 
-      await reset_password_token_model.create({ token: token });
+      await token_model.deleteOne({ token: token, email: decoded.email });
     } catch (error) {
       throw new Exception('Invalid Token', httpStatus.UNAUTHORIZED, {});
     }

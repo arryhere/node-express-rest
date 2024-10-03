@@ -11,6 +11,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "correctness": {
+        "noUndeclaredVariables": "error"
+      },
       "suspicious": {
         "noExplicitAny": "error"
       }
