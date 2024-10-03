@@ -17,6 +17,8 @@ const schema = new Schema(
     password_hash: { type: String, required: true },
     dob: { type: String, required: true },
     phoneNumber: { type: String, required: true },
+    verified: { type: Boolean, default: false, required: true },
+    active: { type: Boolean, default: true, required: true },
   },
   { timestamps: true }
 );

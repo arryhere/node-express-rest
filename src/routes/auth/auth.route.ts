@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
-import { AuthController } from '../../controller/auth/auth.controller.js';
-import { AuthService } from '../../service/auth/auth.service.js';
-import { EmailService } from '../../service/email/email.service.js';
+import { AuthController } from '../../controllers/auth/auth.controller.js';
+import { AuthService } from '../../services/auth/auth.service.js';
+import { EmailService } from '../../services/email/email.service.js';
 
 export const auth_route = Router();
 
