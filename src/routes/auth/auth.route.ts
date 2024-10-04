@@ -10,6 +10,9 @@ const auth_service = new AuthService(email_service);
 const auth_controller = new AuthController(auth_service);
 
 auth_route.post('/signup', (req: Request, res: Response, next: NextFunction) => auth_controller.signup(req, res, next));
+auth_route.get('/verify-link', (req: Request, res: Response, next: NextFunction) =>
+  auth_controller.verify_link(req, res, next)
+);
 auth_route.get('/signin', (req: Request, res: Response, next: NextFunction) => auth_controller.signin(req, res, next));
 auth_route.get('/refresh_token', (req: Request, res: Response, next: NextFunction) =>
   auth_controller.refresh_token(req, res, next)

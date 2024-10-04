@@ -5,23 +5,50 @@ import { respose_helper } from '../../common/helper/response.helper.js';
 import type { AuthService } from '../../services/auth/auth.service.js';
 import { type ISignInInput, signin_input_schema } from './dto/signin.input.js';
 import { type ISignUpInput, signup_input_schema } from './dto/signup.input.js';
+import { type IVerifyLinkInput, verify_link_input_schema } from './dto/verify_link.input.js';
 
 export class AuthController {
   constructor(private readonly auth_service: AuthService) {}
 
   async signup(req: Request, res: Response, next: NextFunction) {
     try {
-      const signupDTO: ISignUpInput = req.body;
+      const signupInput: ISignUpInput = req.body;
 
-      const validation_result = signup_input_schema.safeParse(signupDTO);
+      const validation_result = signup_input_schema.safeParse(signupInput);
 
       if (!validation_result.success) {
         throw new Exception('Signup validation failed', httpStatus.BAD_REQUEST, validation_result.error);
       }
 
-      await this.auth_service.signup(signupDTO);
+      const responseType = await this.auth_service.signup(signupInput);
 
-      respose_helper(res, httpStatus.CREATED, 'SignUp success', {});
+      return respose_helper({
+        res,
+        status_code: httpStatus.CREATED,
+        responseType,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async verify_link(req: Request, res: Response, next: NextFunction) {
+    try {
+      const verifyLinkInput: IVerifyLinkInput = req.body;
+
+      const validation_result = verify_link_input_schema.safeParse(verifyLinkInput);
+
+      if (!validation_result.success) {
+        throw new Exception('Verify link validation failed', httpStatus.BAD_REQUEST, validation_result.error);
+      }
+
+      const responseType = await this.auth_service.verify_link(verifyLinkInput);
+
+      return respose_helper({
+        res,
+        status_code: httpStatus.OK,
+        responseType,
+      });
     } catch (error) {
       next(error);
     }
@@ -29,19 +56,22 @@ export class AuthController {
 
   async signin(req: Request, res: Response, next: NextFunction) {
     try {
-      const signinDTO: ISignInInput = req.body;
+      const signinInput: ISignInInput = req.body;
 
-      const validation_result = signin_input_schema.safeParse(signinDTO);
+      const validation_result = signin_input_schema.safeParse(signinInput);
 
       if (!validation_result.success) {
         throw new Exception('Signin validation failed', httpStatus.BAD_REQUEST, validation_result.error);
       }
 
-      const result = await this.auth_service.signin(signinDTO);
+      const responseType = await this.auth_service.signin(signinInput);
 
-      respose_helper(res, httpStatus.OK, 'SignIn success', result);
+      return respose_helper({
+        res,
+        status_code: httpStatus.OK,
+        responseType,
+      });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
@@ -50,9 +80,13 @@ export class AuthController {
     try {
       const { refresh_token } = req.body;
 
-      const result = await this.auth_service.refresh_token(refresh_token);
+      const responseType = await this.auth_service.refresh_token(refresh_token);
 
-      respose_helper(res, httpStatus.OK, 'Refresh and Access Token generated', result);
+      return respose_helper({
+        res,
+        status_code: httpStatus.OK,
+        responseType,
+      });
     } catch (error) {
       next(error);
     }
@@ -66,9 +100,13 @@ export class AuthController {
         throw new Exception('Invalid email', httpStatus.BAD_REQUEST, { email });
       }
 
-      await this.auth_service.forgot_password(email);
+      const responseType = await this.auth_service.forgot_password(email);
 
-      respose_helper(res, httpStatus.OK, 'Forgot password email sent', {});
+      return respose_helper({
+        res,
+        status_code: httpStatus.OK,
+        responseType,
+      });
     } catch (error) {
       next(error);
     }
@@ -87,9 +125,13 @@ export class AuthController {
         throw new Exception('Invalid new password', httpStatus.BAD_REQUEST, {});
       }
 
-      await this.auth_service.reset_password(String(token), new_password);
+      const responseType = await this.auth_service.reset_password(String(token), new_password);
 
-      respose_helper(res, httpStatus.OK, 'Reset password success', {});
+      return respose_helper({
+        res,
+        status_code: httpStatus.OK,
+        responseType,
+      });
     } catch (error) {
       next(error);
     }

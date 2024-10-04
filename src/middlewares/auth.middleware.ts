@@ -22,7 +22,7 @@ export async function auth_middleware(req: Request, res: Response, next: NextFun
     }
 
     try {
-      const decoded = jwt.verify(access_token, config.jwt.auth_secret) as IJwtPayload;
+      const decoded = jwt.verify(access_token, config.jwt.access_token_secret) as IJwtPayload;
       req.user = decoded;
       next();
     } catch (error) {

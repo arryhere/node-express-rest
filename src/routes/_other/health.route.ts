@@ -5,5 +5,9 @@ import { respose_helper } from '../../common/helper/response.helper.js';
 export const health_route = Router();
 
 health_route.get('', (req: Request, res: Response, next: NextFunction) => {
-  respose_helper(res, httpStatus.OK, 'health check', {});
+  return respose_helper({
+    res,
+    status_code: httpStatus.OK,
+    responseType: { success: true, message: 'health check', data: {} },
+  });
 });

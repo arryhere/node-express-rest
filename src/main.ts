@@ -33,7 +33,11 @@ async function main() {
 
     /* error handling */
     app.use((error: Exception, req: Request, res: Response, next: NextFunction) => {
-      respose_helper(res, error.status_code, error.message, error.data);
+      return respose_helper({
+        res,
+        status_code: error.status_code,
+        responseType: { success: false, message: error.message, data: error.data },
+      });
     });
 
     /* start */

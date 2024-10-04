@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { type Document, Schema, model } from 'mongoose';
 import { TokenType } from '../../common/enum/token.enum.js';
 
 interface IToken {

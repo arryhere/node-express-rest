@@ -5,5 +5,9 @@ import { respose_helper } from '../../common/helper/response.helper.js';
 export const page_not_found_route = Router();
 
 page_not_found_route.use((req: Request, res: Response, next: NextFunction) => {
-  respose_helper(res, httpStatus.NOT_FOUND, 'Page Not Found', {});
+  return respose_helper({
+    res,
+    status_code: httpStatus.NOT_FOUND,
+    responseType: { success: true, message: 'Page Not Found', data: {} },
+  });
 });

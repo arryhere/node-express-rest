@@ -1,12 +1,21 @@
 import type { Response } from 'express';
-import httpStatus from 'http-status';
 import { config } from '../../config/config.js';
+import type { IResponseType } from '../interface/response.interface.js';
 
-export function respose_helper(res: Response, status_code: number, message: string, data: object) {
-  return res.status(status_code ?? httpStatus.INTERNAL_SERVER_ERROR).json({
-    status_code: status_code ?? null,
-    environment: config.app.env ?? null,
-    message: message ?? null,
-    data: data ?? null,
+interface IResponseHelperInput {
+  res: Response;
+  status_code: number;
+  responseType: IResponseType;
+}
+
+export function respose_helper(input: IResponseHelperInput) {
+  const { res, status_code, responseType } = input;
+
+  return res.status(status_code).json({
+    environment: config.app.env,
+    status_code,
+    success: responseType.success,
+    message: responseType.message,
+    data: responseType.data,
   });
 }
