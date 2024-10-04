@@ -1,7 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
-import { TokenType } from '../../common/enum/token.enum.js';
 import { Exception, handle_exception } from '../../common/error/exception.error.js';
 import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
 import type { IResponseType } from '../../common/interface/response.interface.js';
@@ -10,7 +9,7 @@ import type { ISignInInput } from '../../controllers/auth/dto/signin.input.js';
 import type { ISignUpInput } from '../../controllers/auth/dto/signup.input.js';
 import type { IVerifyInput } from '../../controllers/auth/dto/verify.input.js';
 import type { IVerifyLinkInput } from '../../controllers/auth/dto/verify_link.input.js';
-import { token_model } from '../../model/token/token.model.js';
+import { TokenType, token_model } from '../../model/token/token.model.js';
 import { user_model } from '../../model/user/user.model.js';
 import type { EmailService } from '../email/email.service.js';
 

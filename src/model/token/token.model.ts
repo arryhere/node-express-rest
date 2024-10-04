@@ -1,5 +1,10 @@
-import { type Document, Schema, model } from 'mongoose';
-import { TokenType } from '../../common/enum/token.enum.js';
+import { Schema, model } from 'mongoose';
+
+export enum TokenType {
+  VERIFY_TOKEN = 'VERIFY_TOKEN',
+  FORGOT_PASSWORD_TOKEN = 'FORGOT_PASSWORD_TOKEN',
+  MFA_TOKEN = 'MFA_TOKEN',
+}
 
 interface IToken {
   email: string;
