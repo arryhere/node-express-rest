@@ -42,7 +42,7 @@ async function main() {
 
     /* start */
     app.listen(port, () => {
-      log_info(`🚀 server running at: http://localhost:${port}`);
+      log_info(`server running at: 🚀 http://localhost:${port} 🚀`);
     });
   } catch (error: unknown) {
     log_error('server error', {
