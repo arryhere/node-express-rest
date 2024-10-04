@@ -13,7 +13,7 @@ auth_route.post('/signup', (req: Request, res: Response, next: NextFunction) => 
 auth_route.get('/verify-link', (req: Request, res: Response, next: NextFunction) =>
   auth_controller.verify_link(req, res, next)
 );
-auth_route.get('/verify', (req: Request, res: Response, next: NextFunction) => auth_controller.verify(req, res, next));
+auth_route.put('/verify', (req: Request, res: Response, next: NextFunction) => auth_controller.verify(req, res, next));
 auth_route.get('/signin', (req: Request, res: Response, next: NextFunction) => auth_controller.signin(req, res, next));
 auth_route.get('/refresh_token', (req: Request, res: Response, next: NextFunction) =>
   auth_controller.refresh_token(req, res, next)

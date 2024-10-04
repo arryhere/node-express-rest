@@ -27,7 +27,7 @@ export class AuthService {
         throw new Exception('Email already exist', httpStatus.BAD_REQUEST, { email: signup_input.email });
       }
 
-      const verify_token = jwt.sign({ email: signup_input.email }, config.jwt.forgot_password_token_secret, {
+      const verify_token = jwt.sign({ email: signup_input.email }, config.jwt.verify_token_secret, {
         expiresIn: '10m',
       });
 
@@ -66,7 +66,7 @@ export class AuthService {
         throw new Exception('Invalid Credentials', httpStatus.BAD_REQUEST, { email: verify_link_input.email });
       }
 
-      const verify_token = jwt.sign({ email: verify_link_input.email }, config.jwt.forgot_password_token_secret, {
+      const verify_token = jwt.sign({ email: verify_link_input.email }, config.jwt.verify_token_secret, {
         expiresIn: '10m',
       });
 
@@ -107,6 +107,7 @@ export class AuthService {
 
       return { success: true, message: 'User verification successful', data: { email: decoded.email } };
     } catch (error) {
+      console.log(error);
       throw new Exception('User verification failed', httpStatus.INTERNAL_SERVER_ERROR, {});
     }
   }
@@ -119,6 +120,14 @@ export class AuthService {
 
       if (!user) {
         throw new Exception('Invalid user', httpStatus.BAD_REQUEST, { email: signin_input.email });
+      }
+
+      if (!user.verified) {
+        throw new Exception('User not verified', httpStatus.FORBIDDEN, { email: signin_input.email });
+      }
+
+      if (!user.active) {
+        throw new Exception('User not active', httpStatus.FORBIDDEN, { email: signin_input.email });
       }
 
       const password_compare = await bcryptjs.compare(signin_input.password, user.password_hash);
