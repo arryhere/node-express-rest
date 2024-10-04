@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import nodemailer from 'nodemailer';
-import Exception from '../../common/error/exception.error.js';
+import { Exception, handle_exception } from '../../common/error/exception.error.js';
 import { log_info } from '../../common/helper/log.helper.js';
 import { config } from '../../config/config.js';
 
@@ -23,7 +23,7 @@ export class EmailService {
 
       log_info('email log', { res });
     } catch (error) {
-      throw new Exception('Failed to send email', httpStatus.INTERNAL_SERVER_ERROR, {});
+      handle_exception(error, 'Failed to send email', httpStatus.INTERNAL_SERVER_ERROR, {});
     }
   }
 }

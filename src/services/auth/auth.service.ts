@@ -2,7 +2,7 @@ import bcryptjs from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import { TokenType } from '../../common/enum/token.enum.js';
-import Exception from '../../common/error/exception.error.js';
+import { Exception, handle_exception } from '../../common/error/exception.error.js';
 import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
 import type { IResponseType } from '../../common/interface/response.interface.js';
 import { config } from '../../config/config.js';
@@ -48,7 +48,7 @@ export class AuthService {
 
       return { success: true, message: 'SignUp success, proceed to verification', data: {} };
     } catch (error) {
-      throw new Exception('SignUp failed', httpStatus.INTERNAL_SERVER_ERROR, { email: signup_input.email });
+      handle_exception(error, 'SignUp failed', httpStatus.INTERNAL_SERVER_ERROR, { email: signup_input.email });
     }
   }
 
@@ -80,7 +80,7 @@ export class AuthService {
 
       return { success: true, message: 'Verify link sent successfully', data: {} };
     } catch (error) {
-      throw new Exception('Verify link generate failed', httpStatus.INTERNAL_SERVER_ERROR, {
+      handle_exception(error, 'Verify link generate failed', httpStatus.INTERNAL_SERVER_ERROR, {
         email: verify_link_input.email,
       });
     }
@@ -107,8 +107,7 @@ export class AuthService {
 
       return { success: true, message: 'User verification successful', data: { email: decoded.email } };
     } catch (error) {
-      console.log(error);
-      throw new Exception('User verification failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      handle_exception(error, 'User verification failed', httpStatus.INTERNAL_SERVER_ERROR, {});
     }
   }
 
@@ -143,7 +142,7 @@ export class AuthService {
 
       return { success: true, message: 'SignIn success', data: { access_token, refresh_token } };
     } catch (error) {
-      throw new Exception('SignIn failed', httpStatus.INTERNAL_SERVER_ERROR, { email: signin_input.email });
+      handle_exception(error, 'SignIn failed', httpStatus.INTERNAL_SERVER_ERROR, { email: signin_input.email });
     }
   }
 
@@ -163,7 +162,7 @@ export class AuthService {
         },
       };
     } catch (error) {
-      throw new Exception('Failed to generate refresh and access tokens', httpStatus.UNAUTHORIZED, {});
+      handle_exception(error, 'Failed to generate refresh and access tokens', httpStatus.UNAUTHORIZED, {});
     }
   }
 
@@ -183,7 +182,7 @@ export class AuthService {
 
       return { success: true, message: 'Forgot password email sent', data: {} };
     } catch (error) {
-      throw new Exception('Failed to generate refresh and access tokens', httpStatus.UNAUTHORIZED, {});
+      handle_exception(error, 'Failed to generate refresh and access tokens', httpStatus.UNAUTHORIZED, {});
     }
   }
 
@@ -211,7 +210,7 @@ export class AuthService {
 
       return { success: true, message: 'Reset password success', data: {} };
     } catch (error) {
-      throw new Exception('Invalid Token', httpStatus.UNAUTHORIZED, {});
+      handle_exception(error, 'Invalid Token', httpStatus.UNAUTHORIZED, {});
     }
   }
 }

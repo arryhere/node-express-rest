@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import Exception from '../../common/error/exception.error.js';
+import { Exception } from '../../common/error/exception.error.js';
 import { respose_helper } from '../../common/helper/response.helper.js';
 import type { AuthService } from '../../services/auth/auth.service.js';
 import { type ISignInInput, signin_input_schema } from './dto/signin.input.js';

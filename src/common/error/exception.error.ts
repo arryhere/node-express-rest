@@ -1,4 +1,4 @@
-export default class Exception extends Error {
+export class Exception extends Error {
   constructor(
     public message: string,
     public status_code: number,
@@ -9,4 +9,14 @@ export default class Exception extends Error {
     this.message = message;
     this.data = data;
   }
+
+  public type = 'app';
+}
+
+export function handle_exception(error: unknown, message: string, status_code: number, data: object) {
+  if (error instanceof Exception && error.type) {
+    throw new Exception(error.message, error.status_code, error.data);
+  }
+
+  throw new Exception(message, status_code, data);
 }
