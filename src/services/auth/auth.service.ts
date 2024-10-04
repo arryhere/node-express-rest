@@ -49,6 +49,7 @@ export class AuthService {
       return { success: true, message: 'SignUp success, proceed to verification', data: {} };
     } catch (error) {
       handle_exception(error, 'SignUp failed', httpStatus.INTERNAL_SERVER_ERROR, { email: signup_input.email });
+      throw error;
     }
   }
 
@@ -83,6 +84,7 @@ export class AuthService {
       handle_exception(error, 'Verify link generate failed', httpStatus.INTERNAL_SERVER_ERROR, {
         email: verify_link_input.email,
       });
+      throw error;
     }
   }
 
@@ -108,6 +110,7 @@ export class AuthService {
       return { success: true, message: 'User verification successful', data: { email: decoded.email } };
     } catch (error) {
       handle_exception(error, 'User verification failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
     }
   }
 
@@ -143,6 +146,7 @@ export class AuthService {
       return { success: true, message: 'SignIn success', data: { access_token, refresh_token } };
     } catch (error) {
       handle_exception(error, 'SignIn failed', httpStatus.INTERNAL_SERVER_ERROR, { email: signin_input.email });
+      throw error;
     }
   }
 
@@ -163,6 +167,7 @@ export class AuthService {
       };
     } catch (error) {
       handle_exception(error, 'Failed to generate refresh and access tokens', httpStatus.UNAUTHORIZED, {});
+      throw error;
     }
   }
 
@@ -183,6 +188,7 @@ export class AuthService {
       return { success: true, message: 'Forgot password email sent', data: {} };
     } catch (error) {
       handle_exception(error, 'Failed to generate refresh and access tokens', httpStatus.UNAUTHORIZED, {});
+      throw error;
     }
   }
 
@@ -211,6 +217,7 @@ export class AuthService {
       return { success: true, message: 'Reset password success', data: {} };
     } catch (error) {
       handle_exception(error, 'Invalid Token', httpStatus.UNAUTHORIZED, {});
+      throw error;
     }
   }
 }

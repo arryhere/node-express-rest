@@ -9,8 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "noEmit": true,
-    "strictNullChecks": false
+    "noEmit": true
   },
   "include": ["src/**/*", "test/**/*"]
 }

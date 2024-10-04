@@ -5,7 +5,7 @@ import { log_info } from '../../common/helper/log.helper.js';
 import { config } from '../../config/config.js';
 
 export class EmailService {
-  async send_email(subject: string, html: string, to_email: string) {
+  async send_email(subject: string, html: string, to_email: string): Promise<void> {
     try {
       const mail_transport = nodemailer.createTransport({
         host: config.smtp.host,

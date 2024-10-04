@@ -27,6 +27,7 @@ export class UserService {
       };
     } catch (error) {
       handle_exception(error, 'Get profile failed', httpStatus.INTERNAL_SERVER_ERROR, {});
+      throw error;
     }
   }
 }
