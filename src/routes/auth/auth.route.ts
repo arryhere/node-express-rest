@@ -3,7 +3,7 @@ import { AuthController } from '../../controllers/auth/auth.controller.js';
 import { AuthService } from '../../services/auth/auth.service.js';
 import { EmailService } from '../../services/email/email.service.js';
 
-export const auth_route = Router();
+export const auth_route = Router({ caseSensitive: true, strict: true });
 
 const email_service = new EmailService();
 const auth_service = new AuthService(email_service);
