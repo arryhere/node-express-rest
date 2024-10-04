@@ -5,17 +5,17 @@ import type { IResponseType } from '../interface/response.interface.js';
 interface IResponseHelperInput {
   res: Response;
   status_code: number;
-  responseType: IResponseType;
+  response_type: IResponseType;
 }
 
 export function respose_helper(input: IResponseHelperInput) {
-  const { res, status_code, responseType } = input;
+  const { res, status_code, response_type } = input;
 
   return res.status(status_code).json({
     environment: config.app.env,
     status_code,
-    success: responseType.success,
-    message: responseType.message,
-    data: responseType.data,
+    success: response_type.success,
+    message: response_type.message,
+    data: response_type.data,
   });
 }

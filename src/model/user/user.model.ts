@@ -7,6 +7,8 @@ interface IUser {
   password_hash: string;
   dob: string;
   phoneNumber: string;
+  verified: boolean;
+  active: boolean;
 }
 
 const schema = new Schema(

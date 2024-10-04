@@ -8,6 +8,6 @@ base_route.get('', (req: Request, res: Response, next: NextFunction) => {
   return respose_helper({
     res,
     status_code: httpStatus.OK,
-    responseType: { success: true, message: 'server', data: {} },
+    response_type: { success: true, message: 'server', data: {} },
   });
 });

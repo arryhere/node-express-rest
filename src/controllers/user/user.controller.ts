@@ -15,12 +15,12 @@ export class UserController {
         throw new Exception('User not found', httpStatus.BAD_REQUEST, {});
       }
 
-      const responseType = await this.user_service.get_profile(user_email);
+      const response_type = await this.user_service.get_profile(user_email);
 
       return respose_helper({
         res,
         status_code: httpStatus.OK,
-        responseType,
+        response_type,
       });
     } catch (error) {
       next(error);

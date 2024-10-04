@@ -36,7 +36,7 @@ async function main() {
       return respose_helper({
         res,
         status_code: error.status_code,
-        responseType: { success: false, message: error.message, data: error.data },
+        response_type: { success: false, message: error.message, data: error.data },
       });
     });
 

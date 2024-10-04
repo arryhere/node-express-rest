@@ -8,6 +8,6 @@ page_not_found_route.use((req: Request, res: Response, next: NextFunction) => {
   return respose_helper({
     res,
     status_code: httpStatus.NOT_FOUND,
-    responseType: { success: true, message: 'Page Not Found', data: {} },
+    response_type: { success: true, message: 'Page Not Found', data: {} },
   });
 });
