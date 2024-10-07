@@ -3,6 +3,9 @@ import httpStatus from 'http-status';
 import { Exception } from '../../common/error/exception.error.js';
 import { respose_helper } from '../../common/helper/response.helper.js';
 import type { AuthService } from '../../services/auth/auth.service.js';
+import { type IForgotPasswordInput, forgot_password_input_schema } from './dto/forgot_password.input.js';
+import { type IRefreshTokenInput, refresh_token_input_schema } from './dto/refresh_token.input.js';
+import { type IResetPasswordInput, reset_password_input_schema } from './dto/reset_password.input.js';
 import { type ISignInInput, signin_input_schema } from './dto/signin.input.js';
 import { type ISignUpInput, signup_input_schema } from './dto/signup.input.js';
 import { type IVerifyInput, verify_input_schema } from './dto/verify.input.js';
@@ -101,9 +104,15 @@ export class AuthController {
 
   async refresh_token(req: Request, res: Response, next: NextFunction) {
     try {
-      const { refresh_token } = req.body;
+      const refresh_token_input: IRefreshTokenInput = req.body;
 
-      const response_type = await this.auth_service.refresh_token(refresh_token);
+      const validation_result = refresh_token_input_schema.safeParse(refresh_token_input);
+
+      if (!validation_result.success) {
+        throw new Exception('Refresh token validation failed', httpStatus.BAD_REQUEST, validation_result.error);
+      }
+
+      const response_type = await this.auth_service.refresh_token(refresh_token_input);
 
       return respose_helper({
         res,
@@ -117,13 +126,15 @@ export class AuthController {
 
   async forgot_password(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email } = req.body;
+      const forgot_password_input: IForgotPasswordInput = req.body;
 
-      if (!email) {
-        throw new Exception('Invalid email', httpStatus.BAD_REQUEST, { email });
+      const validation_result = forgot_password_input_schema.safeParse(forgot_password_input);
+
+      if (!validation_result.success) {
+        throw new Exception('Forgot password validation failed', httpStatus.BAD_REQUEST, validation_result.error);
       }
 
-      const response_type = await this.auth_service.forgot_password(email);
+      const response_type = await this.auth_service.forgot_password(forgot_password_input);
 
       return respose_helper({
         res,
@@ -137,18 +148,15 @@ export class AuthController {
 
   async reset_password(req: Request, res: Response, next: NextFunction) {
     try {
-      const { token } = req.query;
-      const { new_password } = req.body;
+      const reset_password_input: IResetPasswordInput = req.body;
 
-      if (!token) {
-        throw new Exception('Invalid token', httpStatus.BAD_REQUEST, {});
+      const validation_result = reset_password_input_schema.safeParse(reset_password_input);
+
+      if (!validation_result.success) {
+        throw new Exception('Reset password validation failed', httpStatus.BAD_REQUEST, validation_result.error);
       }
 
-      if (!new_password) {
-        throw new Exception('Invalid new password', httpStatus.BAD_REQUEST, {});
-      }
-
-      const response_type = await this.auth_service.reset_password(String(token), new_password);
+      const response_type = await this.auth_service.reset_password(reset_password_input);
 
       return respose_helper({
         res,

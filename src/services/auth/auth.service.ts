@@ -5,6 +5,9 @@ import { Exception, handle_exception } from '../../common/error/exception.error.
 import type { IJwtPayload } from '../../common/interface/jwt_payload.interface.js';
 import type { IResponseType } from '../../common/interface/response.interface.js';
 import { config } from '../../config/config.js';
+import type { IForgotPasswordInput } from '../../controllers/auth/dto/forgot_password.input.js';
+import type { IRefreshTokenInput } from '../../controllers/auth/dto/refresh_token.input.js';
+import type { IResetPasswordInput } from '../../controllers/auth/dto/reset_password.input.js';
 import type { ISignInInput } from '../../controllers/auth/dto/signin.input.js';
 import type { ISignUpInput } from '../../controllers/auth/dto/signup.input.js';
 import type { IVerifyInput } from '../../controllers/auth/dto/verify.input.js';
@@ -89,9 +92,9 @@ export class AuthService {
 
   async verify(verify_input: IVerifyInput): Promise<IResponseType> {
     try {
-      const decoded = jwt.verify(verify_input.token, config.jwt.verify_token_secret) as IJwtPayload;
+      const decoded = jwt.verify(verify_input.verify_token, config.jwt.verify_token_secret) as IJwtPayload;
 
-      const token_exist = await token_model.findOne({ token: verify_input.token, email: decoded.email });
+      const token_exist = await token_model.findOne({ token: verify_input.verify_token, email: decoded.email });
 
       if (!token_exist) {
         throw new Exception('Invalid Token', httpStatus.BAD_REQUEST, { email: decoded.email });
@@ -104,7 +107,7 @@ export class AuthService {
       }
 
       await user_model.updateOne({ email: decoded.email }, { verified: true });
-      await token_model.deleteOne({ token: verify_input.token, email: decoded.email });
+      await token_model.deleteOne({ token: verify_input.verify_token, email: decoded.email });
 
       return { success: true, message: 'User verification successful', data: { email: decoded.email } };
     } catch (error) {
@@ -149,9 +152,9 @@ export class AuthService {
     }
   }
 
-  async refresh_token(refresh_token_input: string): Promise<IResponseType> {
+  async refresh_token(refresh_token_input: IRefreshTokenInput): Promise<IResponseType> {
     try {
-      const decoded = jwt.verify(refresh_token_input, config.jwt.refresh_token_secret) as IJwtPayload;
+      const decoded = jwt.verify(refresh_token_input.refresh_token, config.jwt.refresh_token_secret) as IJwtPayload;
 
       const access_token = jwt.sign({ email: decoded.email }, config.jwt.access_token_secret, { expiresIn: '1h' });
       const refresh_token = jwt.sign({ email: decoded.email }, config.jwt.refresh_token_secret, { expiresIn: '180d' });
@@ -170,19 +173,25 @@ export class AuthService {
     }
   }
 
-  async forgot_password(email: string): Promise<IResponseType> {
+  async forgot_password(forgot_password_input: IForgotPasswordInput): Promise<IResponseType> {
     try {
-      const user = await user_model.findOne({ email: email });
+      const user = await user_model.findOne({ email: forgot_password_input.email });
 
       if (!user) {
-        throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: email });
+        throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: forgot_password_input.email });
       }
 
-      const token = jwt.sign({ email }, config.jwt.forgot_password_token_secret, { expiresIn: '10m' });
+      const token = jwt.sign({ email: forgot_password_input.email }, config.jwt.forgot_password_token_secret, {
+        expiresIn: '10m',
+      });
 
-      await this.email_service.send_email('Forgot Password Link', `token: ${token}`, email);
+      await this.email_service.send_email('Forgot Password Link', `token: ${token}`, forgot_password_input.email);
 
-      await token_model.create({ email: email, token: token, tokenType: TokenType.FORGOT_PASSWORD_TOKEN });
+      await token_model.create({
+        email: forgot_password_input.email,
+        token: token,
+        tokenType: TokenType.FORGOT_PASSWORD_TOKEN,
+      });
 
       return { success: true, message: 'Forgot password email sent', data: {} };
     } catch (error) {
@@ -191,11 +200,17 @@ export class AuthService {
     }
   }
 
-  async reset_password(token: string, new_password: string): Promise<IResponseType> {
+  async reset_password(reset_password_input: IResetPasswordInput): Promise<IResponseType> {
     try {
-      const decoded = jwt.verify(token, config.jwt.forgot_password_token_secret) as IJwtPayload;
+      const decoded = jwt.verify(
+        reset_password_input.forgot_password_token,
+        config.jwt.forgot_password_token_secret
+      ) as IJwtPayload;
 
-      const token_exist = await token_model.findOne({ token: token, email: decoded.email });
+      const token_exist = await token_model.findOne({
+        token: reset_password_input.forgot_password_token,
+        email: decoded.email,
+      });
 
       if (!token_exist) {
         throw new Exception('Invalid Token', httpStatus.BAD_REQUEST, { email: decoded.email });
@@ -207,11 +222,11 @@ export class AuthService {
         throw new Exception('User does not exist', httpStatus.BAD_REQUEST, { email: decoded.email });
       }
 
-      const password_hash = await bcryptjs.hash(new_password, 10);
+      const password_hash = await bcryptjs.hash(reset_password_input.new_password, 10);
 
       await user_model.updateOne({ email: user.email }, { password_hash: password_hash });
 
-      await token_model.deleteOne({ token: token, email: decoded.email });
+      await token_model.deleteOne({ token: reset_password_input.forgot_password_token, email: decoded.email });
 
       return { success: true, message: 'Reset password success', data: {} };
     } catch (error) {
