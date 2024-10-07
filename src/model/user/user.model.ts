@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Document, type ObjectId, Schema, model } from 'mongoose';
 
-interface IUser {
+export interface IUser {
+  _id: ObjectId;
   firstName: string;
   lastName: string;
   email: string;
@@ -9,6 +10,8 @@ interface IUser {
   phoneNumber: string;
   verified: boolean;
   active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const schema = new Schema(

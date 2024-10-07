@@ -1,28 +1,25 @@
 import httpStatus from 'http-status';
-import { Exception, handle_exception } from '../../common/error/exception.error.js';
+import { handle_exception } from '../../common/error/exception.error.js';
 import type { IResponseType } from '../../common/interface/response.interface.js';
-import { user_model } from '../../model/user/user.model.js';
+import type { IUser } from '../../model/user/user.model.js';
 
 export class UserService {
-  async get_profile(user_email: string): Promise<IResponseType> {
+  async get_profile(user: IUser): Promise<IResponseType> {
     try {
-      const user = await user_model.findOne({
-        email: user_email,
-      });
-
-      if (!user) {
-        throw new Exception('User does not exist', httpStatus.BAD_REQUEST, {});
-      }
-
       return {
         success: true,
         message: 'Get Profile success',
         data: {
+          _id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
           dob: user.dob,
           phoneNumber: user.phoneNumber,
+          verified: user.verified,
+          active: user.active,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
         },
       };
     } catch (error) {

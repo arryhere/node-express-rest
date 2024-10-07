@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { type ObjectId, Schema, model } from 'mongoose';
 
 export enum TokenType {
   VERIFY_TOKEN = 'VERIFY_TOKEN',
@@ -7,10 +7,13 @@ export enum TokenType {
 }
 
 interface IToken {
+  _id: ObjectId;
   email: string;
   token: string;
   tokenType: TokenType;
   issuedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const schema = new Schema(

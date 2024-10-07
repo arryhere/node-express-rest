@@ -1,14 +1,15 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
-import { Exception } from '../common/error/exception.error.js';
+import { Exception, handle_exception } from '../common/error/exception.error.js';
 import type { IJwtPayload } from '../common/interface/jwt_payload.interface.js';
 import { config } from '../config/config.js';
+import { type IUser, user_model } from '../model/user/user.model.js';
 
 declare global {
   namespace Express {
     interface Request {
-      user?: IJwtPayload;
+      user: IUser;
     }
   }
 }
@@ -21,14 +22,21 @@ export async function auth_middleware(req: Request, res: Response, next: NextFun
       throw new Exception('Authentication Failed', httpStatus.UNAUTHORIZED, {});
     }
 
-    try {
-      const decoded = jwt.verify(access_token, config.jwt.access_token_secret) as IJwtPayload;
-      req.user = decoded;
-      next();
-    } catch (error) {
-      throw new Exception('Authentication Failed', httpStatus.UNAUTHORIZED, {});
+    const decoded = jwt.verify(access_token, config.jwt.access_token_secret) as IJwtPayload;
+
+    const user = await user_model.findOne({ email: decoded.email });
+
+    if (!user) {
+      throw new Exception('Invalid user', httpStatus.UNAUTHORIZED, {});
     }
+
+    req.user = user.toObject();
+    next();
   } catch (error) {
-    next(error);
+    try {
+      handle_exception(error, 'Authentication Failed', httpStatus.UNAUTHORIZED, {});
+    } catch (error) {
+      next(error);
+    }
   }
 }
