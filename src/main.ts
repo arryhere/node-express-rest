@@ -12,7 +12,6 @@ async function main() {
   try {
     /* init */
     const app = express();
-    const port = config.app.port;
 
     /* db */
     await mongodb();
@@ -41,8 +40,8 @@ async function main() {
     });
 
     /* start */
-    app.listen(port, () => {
-      log_info(`server running at: 🚀 http://localhost:${port} 🚀`);
+    app.listen(config.app.port, () => {
+      log_info(`server running at: 🚀 http://localhost:${config.app.port} 🚀`);
     });
   } catch (error: unknown) {
     log_error('server error', {
