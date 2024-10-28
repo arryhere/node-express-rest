@@ -10,7 +10,8 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "start:dev": "tsx watch ./src/main.ts",
-    "start:prod": "node ./dist/index.js",
+    "start:prod": "node ./dist/index.cjs",
+    "build:esbuild": "npm run clean && node ./esbuild.js",
     "build:swc": "npm run clean && npm run pre-commit && swc ./src -d ./dist --strip-leading-paths",
     "build:ncc": "npm run clean && npm run pre-commit && ncc build ./src/main.ts -o ./dist -m -C",
     "format": "biome format --write ./src",
@@ -32,6 +33,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/uuid": "^9.0.1",
     "@vercel/ncc": "^0.38.2",
+    "esbuild": "^0.24.0",
     "tsx": "^4.19.1",
     "typescript": "^5.0.4"
   },

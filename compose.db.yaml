@@ -1,4 +1,4 @@
-name: compose-node-rest-express
+name: compose-db-node-rest-express
 
 services:
   db:

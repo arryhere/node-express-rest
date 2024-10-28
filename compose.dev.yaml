@@ -1,4 +1,4 @@
-name: compose-node-rest-express
+name: compose-dev-node-rest-express
 
 services:
   mongodb:
