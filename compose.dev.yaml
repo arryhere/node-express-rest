@@ -1,0 +1,27 @@
+name: compose-node-rest-express
+
+services:
+  mongodb:
+    container_name: mongodb-container
+    image: mongo:latest
+    restart: on-failure:3
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - 27017:27017
+    volumes:
+      - ./tmp/db:/data/db
+
+  app:
+    container_name: app-container
+    image: app-prod:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.dev
+      no_cache: true
+    restart: on-failure:3
+    depends_on:
+      - mongodb
+    ports:
+      - 3600:3600
