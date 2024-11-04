@@ -18,4 +18,4 @@ try {
 }
 
 // currently esbuild has issues with esm output [format: 'esm'], so for now we are targetting cjs build
-// we hope to update this to esm build output in th future, if things are fixed from node ans esbuild side
+// we hope to update this to esm build output in th future, if things are fixed from node and esbuild side

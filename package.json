@@ -11,6 +11,7 @@
     "clean": "rm -rf ./dist",
     "start:dev": "tsx watch ./src/main.ts",
     "start:prod": "npm run build:ncc && node ./dist/index.js",
+    "start:esbuild-prod": "npm run build:esbuild && node ./dist/index.cjs",
     "build:swc": "npm run clean && npm run pre-commit && swc ./src -d ./dist --strip-leading-paths",
     "build:esbuild": "npm run clean && node ./esbuild.js",
     "build:ncc": "npm run clean && npm run pre-commit && ncc build ./src/main.ts -o ./dist -m -C",
