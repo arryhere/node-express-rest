@@ -3,13 +3,15 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ESNext",
-    "strict": true,
-    "sourceMap": true,
     "outDir": "./dist",
+    "checkJs": true,
+    "strict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "noEmit": true
+    "sourceMap": true,
+    "noEmit": true,
+    "removeComments": true
   },
   "include": ["src/**/*", "test/**/*"]
 }
