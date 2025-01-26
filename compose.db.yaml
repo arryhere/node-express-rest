@@ -2,8 +2,8 @@ name: compose-db-node-rest-express
 
 services:
   db:
-    # mongo out container uri     : mongodb://root:password@localhost:27018/hawkio?authSource=admin
-    # mongo in container uri      : mongodb://root:password@db:27017/hawkio?authSource=admin
+    # mongo out container uri     : mongodb://root:password@localhost:27017/mydb?authSource=admin
+    # mongo in container uri      : mongodb://root:password@db:27017/mydb?authSource=admin
     container_name: mongo-db-container
     image: mongo:latest
     restart: on-failure:3
