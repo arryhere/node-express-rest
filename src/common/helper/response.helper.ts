@@ -8,7 +8,7 @@ interface IResponseHelperInput {
   response_type: IResponseType;
 }
 
-export function respose_helper(input: IResponseHelperInput) {
+export function response_helper(input: IResponseHelperInput) {
   const { res, status_code, response_type } = input;
 
   return res.status(status_code).json({
