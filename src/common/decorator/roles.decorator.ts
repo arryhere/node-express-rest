@@ -12,7 +12,7 @@ export function Roles(...allowedRoles: string[]) {
           throw new Exception('Unauthenticated Route: Bad use of roles', httpStatus.FORBIDDEN, {});
         }
 
-        if (!req.user || !allowedRoles.includes(req.user.role)) {
+        if (!allowedRoles.includes(req.user.role)) {
           throw new Exception(`Access denied: Invalid role: ${req.user.role}`, httpStatus.FORBIDDEN, {});
         }
 
