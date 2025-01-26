@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Exception } from '../../common/error/exception.error.js';
-import { respose_helper } from '../../common/helper/response.helper.js';
+import { response_helper } from '../../common/helper/response.helper.js';
 import type { AuthService } from '../../services/auth/auth.service.js';
 import { type IForgotPasswordInput, forgot_password_input_schema } from './dto/forgot_password.input.js';
 import { type IRefreshTokenInput, refresh_token_input_schema } from './dto/refresh_token.input.js';
@@ -26,7 +26,7 @@ export class AuthController {
 
       const response_type = await this.auth_service.signup(signup_input);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.CREATED,
         response_type,
@@ -48,7 +48,7 @@ export class AuthController {
 
       const response_type = await this.auth_service.verify_link(verify_link_input);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.OK,
         response_type,
@@ -70,7 +70,7 @@ export class AuthController {
 
       const response_type = await this.auth_service.verify(verify_input);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.OK,
         response_type,
@@ -92,7 +92,7 @@ export class AuthController {
 
       const response_type = await this.auth_service.signin(signin_input);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.OK,
         response_type,
@@ -114,7 +114,7 @@ export class AuthController {
 
       const response_type = await this.auth_service.refresh_token(refresh_token_input);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.OK,
         response_type,
@@ -136,7 +136,7 @@ export class AuthController {
 
       const response_type = await this.auth_service.forgot_password(forgot_password_input);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.OK,
         response_type,
@@ -158,7 +158,7 @@ export class AuthController {
 
       const response_type = await this.auth_service.reset_password(reset_password_input);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.OK,
         response_type,

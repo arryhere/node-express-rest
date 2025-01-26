@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { Exception } from '../../common/error/exception.error.js';
-import { respose_helper } from '../../common/helper/response.helper.js';
+import { response_helper } from '../../common/helper/response.helper.js';
 import type { UserService } from '../../services/user/user.service.js';
 
 export class UserController {
@@ -13,7 +13,7 @@ export class UserController {
 
       const response_type = await this.user_service.get_profile(user);
 
-      return respose_helper({
+      return response_helper({
         res,
         status_code: httpStatus.OK,
         response_type,

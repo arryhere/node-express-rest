@@ -9,7 +9,7 @@
   "main": "./src/main.ts",
   "scripts": {
     "clean": "rm -rf ./dist",
-    "start:dev": "tsx watch ./src/main.ts",
+    "start:dev": "tsx watch --include ./src ./src/main.ts",
     "start:esbuild": "npm run build:esbuild && node ./dist/index.cjs",
     "start:ncc": "npm run build:ncc && node ./dist/index.js",
     "build:swc": "npm run clean && npm run pre-commit && swc ./src -d ./dist --strip-leading-paths",

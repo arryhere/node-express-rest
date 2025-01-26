@@ -14,6 +14,8 @@ export class Exception extends Error {
 }
 
 export function handle_exception(error: unknown, message: string, status_code: number, data: object) {
+  console.log('\n[Error]:', error, '\n');
+
   if (error instanceof Exception && error.type) {
     throw new Exception(error.message, error.status_code, error.data);
   }
