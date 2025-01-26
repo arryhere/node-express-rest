@@ -38,14 +38,16 @@ export class UserService {
       let sort_order = -1; // default desc
       if (sort_by === 'asc') sort_order = 1;
 
-      const result = await user_auth_log_model.find(
-        {
-          user: user_id,
-          createdAt: { $gte: new Date(`${start_date}T${start_time}Z`), $lte: new Date(`${end_date}T${end_time}Z`) },
-        },
-        {},
-        { limit: limit, skip: limit * page, sort: { createdAt: sort_order } }
-      );
+      const result = await user_auth_log_model
+        .find(
+          {
+            user: user_id,
+            createdAt: { $gte: new Date(`${start_date}T${start_time}Z`), $lte: new Date(`${end_date}T${end_time}Z`) },
+          },
+          {},
+          { limit: limit, skip: limit * page, sort: { createdAt: sort_order } }
+        )
+        .populate([{ path: 'user', select: 'email role' }]); // can add multiple populate fields in the array
 
       return {
         success: true,
