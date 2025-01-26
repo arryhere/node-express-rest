@@ -9,12 +9,15 @@
   "main": "./src/main.ts",
   "scripts": {
     "clean": "rm -rf ./dist",
+  
     "start:dev": "tsx watch --include ./src ./src/main.ts",
     "start:esbuild": "npm run build:esbuild && node ./dist/index.cjs",
     "start:ncc": "npm run build:ncc && node ./dist/index.js",
+  
     "build:swc": "npm run clean && npm run pre-commit && swc ./src -d ./dist --strip-leading-paths",
     "build:esbuild": "npm run clean && node ./esbuild.js",
     "build:ncc": "npm run clean && npm run pre-commit && ncc build ./src/main.ts -o ./dist -m -C",
+
     "format": "biome format --write ./src",
     "lint": "biome lint --write ./src && biome check --write ./src",
     "type-check": "tsc --noEmit",
