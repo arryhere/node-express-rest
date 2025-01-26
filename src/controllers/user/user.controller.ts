@@ -24,7 +24,7 @@ export class UserController {
     }
   }
 
-  @Roles(Role.SUPER_ADMIN)
+  @Roles(Role.SUPER_ADMIN, Role.ADMIN)
   async get_user_auth_logs(req: Request, res: Response, next: NextFunction) {
     try {
       const query = req.query;

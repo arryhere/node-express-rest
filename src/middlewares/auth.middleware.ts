@@ -33,7 +33,7 @@ export async function auth_middleware(req: Request, res: Response, next: NextFun
 
     req.user = user.toObject();
 
-    if (req.user.role !== Role.SUPER_ADMIN && req.user.role !== Role.ADMIN) {
+    if (req.user.role === Role.USER) {
       await user_auth_log_model.create({
         user: req.user._id,
       });
