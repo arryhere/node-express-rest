@@ -1,4 +1,10 @@
-import { Document, type ObjectId, Schema, model } from 'mongoose';
+import { type ObjectId, Schema, model } from 'mongoose';
+
+export enum Role {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
 
 export interface IUser {
   _id: ObjectId;
@@ -10,6 +16,7 @@ export interface IUser {
   phoneNumber: string;
   verified: boolean;
   active: boolean;
+  role: Role;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,6 +31,7 @@ const schema = new Schema(
     phoneNumber: { type: String, required: true },
     verified: { type: Boolean, default: false, required: true },
     active: { type: Boolean, default: true, required: true },
+    role: { type: String, enum: Object.values(Role), default: Role.USER, required: true },
   },
   { timestamps: true }
 );

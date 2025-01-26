@@ -1,11 +1,11 @@
 import cors from 'cors';
-import express, { type NextFunction, type Request, type Response } from 'express';
+import express, { type NextFunction, type Request, type Response, type ErrorRequestHandler } from 'express';
 import type { Exception } from './common/error/exception.error.js';
 import { log_error, log_info } from './common/helper/log.helper.js';
 import { config } from './config/config.js';
 import { mongodb } from './db/mongodb.js';
 
-import { respose_helper } from './common/helper/response.helper.js';
+import { response_helper } from './common/helper/response.helper.js';
 import { router } from './routes/route.js';
 
 async function main() {
@@ -31,13 +31,15 @@ async function main() {
     app.use(router);
 
     /* error handling */
-    app.use((error: Exception, req: Request, res: Response, next: NextFunction) => {
-      return respose_helper({
+    const error_handler: ErrorRequestHandler = (error: Exception, req: Request, res: Response, next: NextFunction) => {
+      response_helper({
         res,
-        status_code: error.status_code,
+        status_code: error.status_code || 500,
         response_type: { success: false, message: error.message, data: error.data },
       });
-    });
+      return;
+    };
+    app.use(error_handler);
 
     /* start */
     app.listen(config.app.port, () => {

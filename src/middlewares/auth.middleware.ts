@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 import { Exception, handle_exception } from '../common/error/exception.error.js';
 import type { IJwtPayload } from '../common/interface/jwt_payload.interface.js';
 import { config } from '../config/config.js';
-import { type IUser, user_model } from '../model/user/user.model.js';
+import { type IUser, Role, user_model } from '../model/user/user.model.js';
+import { user_auth_log_model } from '../model/user/user_auth_log.model.js';
 
 declare global {
   namespace Express {
@@ -31,6 +32,13 @@ export async function auth_middleware(req: Request, res: Response, next: NextFun
     }
 
     req.user = user.toObject();
+
+    if (req.user.role === Role.USER) {
+      await user_auth_log_model.create({
+        user: req.user._id,
+      });
+    }
+
     next();
   } catch (error) {
     try {
