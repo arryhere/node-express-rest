@@ -14,14 +14,16 @@
     "start:esbuild": "npm run build:esbuild && node ./dist/index.cjs",
     "start:ncc": "npm run build:ncc && node ./dist/index.js",
   
-    "build:swc": "npm run clean && npm run pre-commit && swc ./src -d ./dist --strip-leading-paths",
-    "build:esbuild": "npm run clean && node ./esbuild.js",
-    "build:ncc": "npm run clean && npm run pre-commit && ncc build ./src/main.ts -o ./dist -m -C",
+    "build:swc": "npm run pre-build && swc ./src -d ./dist --strip-leading-paths",
+    "build:esbuild": "npm run pre-build && node ./esbuild.js",
+    "build:ncc": "npm run pre-build && ncc build ./src/main.ts -o ./dist -m -C -s",
 
     "format": "biome format --write ./src",
     "lint": "biome lint --write ./src && biome check --write ./src",
     "type-check": "tsc --noEmit",
-    "pre-commit": "npm run format && npm run lint && npm run type-check"
+
+    "pre-commit": "npm run format && npm run lint && npm run type-check",
+    "pre-build": "npm run clean && npm run pre-commit"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
